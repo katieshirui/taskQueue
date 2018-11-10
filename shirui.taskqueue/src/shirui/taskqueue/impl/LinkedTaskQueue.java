@@ -66,11 +66,11 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 		if (is_closed()) {
 			System.out.println("queue is shutdown");
 			return false;
-		}
+		}/*
         if (len.get() == capacity) {
         	System.out.println("queue is full");
             return false;
-        }
+        }*/
         int c = -1;
         final ReentrantLock putLock = this.putLock;
         putLock.lock();// get the lock for adding task
@@ -101,10 +101,11 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 
 	@Override
 	public E get() {
+		/*
         if (len.get() == 0) {
         	System.out.println("queue is empty");
             return null;
-        }
+        }*/
         if (is_closed()) {
         	System.out.println("queue is shutdown");
 			return null;
@@ -113,6 +114,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         takeLock.lock();// get the lock for taking task
         try {
         	while (len.get() == 0) {//when the queue is empty block taking thread
+        		System.out.println("queue is empty");
                 notEmpty.await();
             }
         	Node<E> x = head.next;//get the fist task without deleting it
@@ -121,6 +123,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
             	return null;
             }else {//the first task is not null
             	if(x.isProcessed) {//if it's get by another thread already,then get the null node
+            		System.out.println("the task taken from queue is in processing");
             		return null;
             	}
             	x.isProcessed=true;
@@ -170,10 +173,11 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 		putLock.lock();
         takeLock.lock();
         try {
-        	System.out.println("trying to shutdown");
         if(isOpen != false) {
+        	System.out.println("queue shutdown");
         	isOpen=false;
         }
+        System.out.println("queue shutdown");
         return isOpen;
 	}finally {
 		putLock.unlock();

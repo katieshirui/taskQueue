@@ -15,7 +15,7 @@ public class TaskQueueTest {
         // add task to the queue
         public void put(String s) throws InterruptedException {
         	//if(s=="4") queue.shutdown();
-        	System.out.println(Thread.currentThread().getName()+" is trying to add task"+s);
+        	System.out.println(Thread.currentThread().getName()+" is trying to add task: "+s);
         	queue.add(s);
         	System.out.println("task "+s+" is added"); 
         }
@@ -23,9 +23,9 @@ public class TaskQueueTest {
         // take task from the queue and process the task, delete the task after process; 
         public void take() throws InterruptedException {
             String task = queue.get();
-            System.out.println(Thread.currentThread().getName()+" is processing task:"+task);
+            System.out.println(Thread.currentThread().getName()+" is processing task: "+task);
             queue.done(task);
-            System.out.println(Thread.currentThread().getName()+" finished processing task:"+task);
+            System.out.println(Thread.currentThread().getName()+" finished processing task: "+task);
             //test the shutdown function
             if(task=="3") queue.shutdown();
     }
