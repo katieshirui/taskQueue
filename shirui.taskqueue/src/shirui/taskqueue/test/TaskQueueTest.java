@@ -12,29 +12,29 @@ public class TaskQueueTest {
 		LinkedTaskQueue<String> queue = new LinkedTaskQueue<String>(5);
 		
 		
-        // 生产苹果，放入篮子
+        // add task to the queue
         public void put(String s) throws InterruptedException {
         	//if(s=="4") queue.shutdown();
+        	System.out.println(Thread.currentThread().getName()+" is trying to add task"+s);
         	queue.add(s);
-        	System.out.println(s+"added"); 
+        	System.out.println("task "+s+" is added"); 
         }
         
-        // 消费苹果，从篮子中取走
+        // take task from the queue and process the task, delete the task after process; 
         public void take() throws InterruptedException {
-            // take方法取出一个苹果，若basket为空，等到basket有苹果为止(获取并移除此队列的头部)
             String task = queue.get();
-            System.out.println("processing:"+task);
+            System.out.println(Thread.currentThread().getName()+" is processing task:"+task);
             queue.done(task);
+            System.out.println(Thread.currentThread().getName()+" finished processing task:"+task);
+            //test the shutdown function
             if(task=="3") queue.shutdown();
     }
 	}
 	
 	class Taker implements Runnable {
-        private String instance;
         private Queue queue;
 
         public Taker(String instance, Queue queue) {
-            this.instance = instance;
             this.queue = queue;
         }
 
@@ -42,7 +42,6 @@ public class TaskQueueTest {
             try {
                 while (!queue.queue.is_closed()) {
                     queue.take();
-                    // 休眠300ms
                     Thread.sleep(300);
                 }
             } catch (InterruptedException ex) {
@@ -51,13 +50,11 @@ public class TaskQueueTest {
         }
     }
 
-    // 定义苹果消费者
+    
     class Adder implements Runnable {
-        private String instance;
         private Queue queue;
 
         public Adder(String instance,Queue queue) {
-            this.instance = instance;
             this.queue = queue;
         }
 
@@ -68,7 +65,6 @@ public class TaskQueueTest {
                     queue.put("2");
                     queue.put("3");
                     queue.put("4");
-                    // 休眠1000ms
                     Thread.sleep(5000);
                 }
             } catch (InterruptedException ex) {

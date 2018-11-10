@@ -15,42 +15,44 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 
 	static class Node<E> {
         E item;
+        /** if the task is already taken by another thread */
         boolean isProcessed=false;
         
         Node<E> next; 
 
         Node(E x) { item = x; }
     }
-	
+	/** the capacity of the queue */
 	private final int capacity;
 
     /** the number of nodes */
 	private final AtomicInteger len = new AtomicInteger(0);
 	
+	/** if the queue is open */
 	private boolean isOpen=true;
 
-    /** 链表头节点 */
+    /** the head node of the queue */
     private Node<E> head;
 
-    /** 链表尾节点 */
+    /** node of the queue */
     private Node<E> last;
 
-    /** 出队锁 */
+    /** lock for taking task */
     private final ReentrantLock takeLock = new ReentrantLock();
 
-    /** 出队等待条件 */
+    /** the condition for taking task */
     private final Condition notEmpty = takeLock.newCondition();
 
-    /** 入队锁 */
+    /** lock for adding task */
     private final ReentrantLock putLock = new ReentrantLock();
 
-    /** 入队等待条件 */
+    /** the condition for adding task  */
     private final Condition notFull = putLock.newCondition();
     
     public LinkedTaskQueue(int capacity) {
         if (capacity <= 0) throw new IllegalArgumentException();
         this.capacity = capacity;
-        last = head = new Node<E>(null);//初始化头节点和尾节点，均为封装了null数据的节点
+        last = head = new Node<E>(null);
     }
     
     public LinkedTaskQueue() {
@@ -71,23 +73,23 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         }
         int c = -1;
         final ReentrantLock putLock = this.putLock;
-        putLock.lock();// 获取入队锁
+        putLock.lock();// get the lock for adding task
         try {
-        	while (len.get() == capacity) {//当队列已满，添加线程阻塞
+        	while (len.get() == capacity) {//when the queue is full block adding thread
                 notFull.await();
             }
-            if (len.get() < capacity) {// 容量没满
-            	last = last.next = new Node<E>(e);
-                c = len.getAndIncrement();// 容量+1，返回旧值（注意）
-                if (c + 1 < capacity)// 如果添加元素后的容量，还小于指定容量（说明在插入当前元素后，至少还可以再插一个元素）
-                    notFull.signal();// 唤醒等待notFull条件的其中一个线程
+            if (len.get() < capacity) {// when the queue is not full
+            	last = last.next = new Node<E>(e);//add a node to the end of th queue
+                c = len.getAndIncrement();// the size goes down by one
+                if (c + 1 < capacity)// if the size of the queue after adding a task is still smaller than the capacity
+                    notFull.signal();//wake up one thread in adding thread
             }
         }catch(InterruptedException e1){
         	
         } finally {
-            putLock.unlock();// 释放入队锁
+            putLock.unlock();// release the lock for adding 
         }
-        if (c == 0)// 如果c==0，这是什么情况？一开始如果是个空队列，就会是这样的值，要注意的是，上边的c返回的是旧值
+        if (c == 0)// if the queue was empty before adding this task
             signalNotEmpty();
         return c >= 0;
 	}
@@ -108,17 +110,17 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 			return null;
         }
         final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();// 获取出队锁
+        takeLock.lock();// get the lock for taking task
         try {
-        	while (len.get() == 0) {//当队列为空，取出线程阻塞
+        	while (len.get() == 0) {//when the queue is empty block taking thread
                 notEmpty.await();
             }
-        	Node<E> x = head.next;
-            if (x == null) {//如果队列为空，则直接返回null
+        	Node<E> x = head.next;//get the fist task without deleting it
+            if (x == null) {//if the first task got is null
             	System.out.println("the task taken from queue is null");
             	return null;
-            }else {
-            	if(x.isProcessed) {
+            }else {//the first task is not null
+            	if(x.isProcessed) {//if it's get by another thread already,then get the null node
             		return null;
             	}
             	x.isProcessed=true;
@@ -142,23 +144,23 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 			System.out.println("queue is shutdown");
 			return false;
 		}
-		if(e.equals(head.next.item)) {
-	    takeLock.lock();
+		if(e.equals(head.next.item)) {//if the task that just got processed is the same as the first task in the queue 
+	    takeLock.lock();//get taking lock
 		int c = -1;
 		try {
-		Node<E> h = head;//获取头节点：x==null
-        Node<E> first = h.next;//将头节点的下一个节点赋值给first
-        h.next = h; // 将当前将要出队的节点置null（为了使其做head节点做准备）
-        head = first;//将当前将要出队的节点作为了头节点
-        first.item = null;//将出队节点的值置空
+		Node<E> h = head;//get the head node 
+        Node<E> first = h.next;//get the first task
+        h.next = h; 
+        head = first;//set the head node as null
+        first.item = null;//set the task node as null
         c = len.get();
-        if (c > 1)// 还有元素（如果旧值c==1的话，那么通过上边的操作之后，队列就空了）
-            notEmpty.signal();// 唤醒等待在notEmpty队列中的其中一条线程
+        if (c > 1)// if there is node left in the queue
+            notEmpty.signal();// wake taking thread
 			} finally {
-	            takeLock.unlock();
+	            takeLock.unlock();//release taking lock
 	        }
-	        if (c == capacity)// c == capacity是怎么发生的？如果队列是一个满队列，注意：上边的c返回的是旧值
-	            signalNotFull();
+	        if (c == capacity)//if the queue before taking this node out was full
+	            signalNotFull();// wake adding thread
 		}
 		return false;
 	}
@@ -174,7 +176,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         }
         return isOpen;
 	}finally {
-		putLock.unlock();// 释放出队锁
+		putLock.unlock();
         takeLock.unlock();
     	}
 	}
@@ -186,11 +188,11 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 		
 	private void signalNotEmpty() {
         final ReentrantLock takeLock = this.takeLock;
-        takeLock.lock();//获取出队锁
+        takeLock.lock();
         try {
-            notEmpty.signal();//唤醒等待notEmpty条件的线程中的一个
+            notEmpty.signal();
         } finally {
-            takeLock.unlock();//释放出队锁
+            takeLock.unlock();
         }
     }
 	
