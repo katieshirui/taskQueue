@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+/Users/shirui0825/eclipse-workspace/uc-shirui/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2113499749.index
+317405541.index
+878064829.index
+690111807.index
+3095931388.index
+122188057.index

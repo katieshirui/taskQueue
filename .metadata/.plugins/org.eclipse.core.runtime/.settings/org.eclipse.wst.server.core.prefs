@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+module-start-timeout=300000
+runtimes=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<runtimes>\n  <runtime id\="_Users_shirui0825_eclipse-workspace_uc-tribe_uc-api_dsm.web_dsweb_target_liberty_wlp" id-set\="true" location\="/Users/shirui0825/eclipse-workspace/uc-tribe/uc-api/dsm.web/dsweb/target/liberty/wlp" name\="dsweb Runtime" runtime-type-id\="com.ibm.ws.st.runtime.wlp" timestamp\="0" vm-install-id\="com.oracle.java.8u151.jdk" vm-install-type-id\="org.eclipse.jdt.internal.launching.macosx.MacOSXType"/>\n</runtimes>\n

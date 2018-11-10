@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewWizardAction">
+	</section>
+	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
+		<item value="false" key="FilterByLocation"/>
+		<item value="true" key="ShowStatusLine"/>
+		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;History&gt;&#x0A;&lt;historyRootNode&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.mymon/src/main/java/com/ibm/aps/tools/mymon/mon/advanced/pojo/WLMworkloadSummary.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.console.restapi/src/com/ibm/aps/tools/console/restapi/monitor/test/MonitorDataValidation.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.mymon/src/main/java/com/ibm/aps/tools/mymon/mon/advanced/mapper/WLMworkloadMapper.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.mymon/src/main/java/com/ibm/aps/tools/mymon/mon/persist/PersistThread.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.mymon/src/main/java/com/ibm/aps/tools/mymon/mon/advanced/mapper/PackagecacheMapper.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/dsm.console.restapi.test/src/com/ibm/datatools/test/console/restapi/testcases/v4/MonitorConnectionTestForUC.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;infoNode path=&quot;/com.ibm.aps.tools.mymon/src/main/java/com/ibm/aps/tools/mymon/mon/MonitorCollectorRunnable.java&quot; type=&quot;1&quot;/&gt;&#x0A;&lt;/historyRootNode&gt;&#x0A;&lt;/History&gt;" key="History"/>
+		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;" key="WorkingSet"/>
+		<item value="false" key="ShowDerived"/>
+		<section name="DialogBoundsSettings">
+			<item value="600" key="DIALOG_WIDTH"/>
+			<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+			<item value="500" key="DIALOG_HEIGHT"/>
+			<item value="309" key="DIALOG_X_ORIGIN"/>
+			<item value="21" key="DIALOG_Y_ORIGIN"/>
+		</section>
+	</section>
+</section>

@@ -1,0 +1,159 @@
+package shirui.taskqueue.impl;
+
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+import shirui.taskqueue.base.TaskQueue;
+
+public class LinkedTaskQueue<E> implements TaskQueue<E>{
+	static class Node<E> {
+        E item;
+
+        Node<E> next; 
+
+        Node(E x) { item = x; }
+    }
+	
+	private final int capacity;
+
+    /** the number of nodes */
+    private final AtomicInteger count = new AtomicInteger(0);
+
+    /** 链表头节点 */
+    private transient Node<E> head;
+
+    /** 链表尾节点 */
+    private transient Node<E> last;
+
+    /** 出队锁 */
+    private final ReentrantLock takeLock = new ReentrantLock();
+
+    /** 出队等待条件 */
+    private final Condition notEmpty = takeLock.newCondition();
+
+    /** 入队锁 */
+    private final ReentrantLock putLock = new ReentrantLock();
+
+    /** 入队等待条件 */
+    private final Condition notFull = putLock.newCondition();
+
+    public LinkedTaskQueue(int capacity) {
+        if (capacity <= 0) throw new IllegalArgumentException();
+        this.capacity = capacity;
+        last = head = new Node<E>(null);//初始化头节点和尾节点，均为封装了null数据的节点
+    }
+    
+    public LinkedTaskQueue() {
+        this(Integer.MAX_VALUE);
+    }
+    
+	@Override
+	public boolean add(E e) {
+		if (e == null)
+            throw new NullPointerException();
+        final AtomicInteger count = this.count;// 获取队列中的元素个数
+        if (count.get() == capacity)// 队列满了
+            return false;
+        int c = -1;
+        final ReentrantLock putLock = this.putLock;
+        putLock.lock();// 获取入队锁
+        try {
+            if (count.get() < capacity) {// 容量没满
+                insert(e);// 入队
+                c = count.getAndIncrement();// 容量+1，返回旧值（注意）
+                if (c + 1 < capacity)// 如果添加元素后的容量，还小于指定容量（说明在插入当前元素后，至少还可以再插一个元素）
+                    notFull.signal();// 唤醒等待notFull条件的其中一个线程
+            }
+        } finally {
+            putLock.unlock();// 释放入队锁
+        }
+        if (c == 0)// 如果c==0，这是什么情况？一开始如果是个空队列，就会是这样的值，要注意的是，上边的c返回的是旧值
+            signalNotEmpty();
+        return c >= 0;
+	}
+
+	@Override
+	public int len() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public E get() {
+		final AtomicInteger count = this.count;// 获取元素数量
+        if (count.get() == 0)// 没有元素
+            return null;
+        E x = null;
+        int c = -1;
+        final ReentrantLock takeLock = this.takeLock;
+        takeLock.lock();// 获取出队锁
+        try {
+            if (count.get() > 0) {// 有元素
+                x = pop();// 出队
+                // 元素个数-1（注意：该方法是一个无限循环，直到减1成功为止，且返回旧值）
+                c = count.getAndDecrement();
+                if (c > 1)// 还有元素（如果旧值c==1的话，那么通过上边的操作之后，队列就空了）
+                    notEmpty.signal();// 唤醒等待在notEmpty队列中的其中一条线程
+            }
+        } finally {
+            takeLock.unlock();// 释放出队锁
+        }
+        if (c == capacity)// c == capacity是怎么发生的？如果队列是一个满队列，注意：上边的c返回的是旧值
+            signalNotFull();
+        return x;
+		return null;
+	}
+
+	@Override
+	public Map<Object, Boolean> remove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean done(E e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean shutdown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean is_closed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	private void insert(E x) {
+        /*
+         * 封装新节点，并赋给当前的最后一个节点的下一个节点，然后在将这个节点设为最后一个节点
+         */
+        last = last.next = new Node<E>(x);
+    }
+	
+	private void signalNotEmpty() {
+        final ReentrantLock takeLock = this.takeLock;
+        takeLock.lock();//获取出队锁
+        try {
+            notEmpty.signal();//唤醒等待notEmpty条件的线程中的一个
+        } finally {
+            takeLock.unlock();//释放出队锁
+        }
+    }
+	
+	private E pop() {
+        Node<E> h = head;//获取头节点：x==null
+        Node<E> first = h.next;//将头节点的下一个节点赋值给first
+        h.next = h; // 将当前将要出队的节点置null（为了使其做head节点做准备）
+        head = first;//将当前将要出队的节点作为了头节点
+        E x = first.item;//获取出队节点的值
+        first.item = null;//将出队节点的值置空
+        return x;
+    }
+}

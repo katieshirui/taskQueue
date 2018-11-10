@@ -1,0 +1,329 @@
+package com.ibm.aps.tools.mymon.mon.advanced.pojo;
+
+import com.ibm.aps.tools.mymon.mon.engine.BaseObject;
+import com.ibm.aps.tools.mymon.mon.engine.ColRole;
+
+public class WLMserviceClassSummary extends BaseObject{
+	public WLMserviceClassSummary() {}
+	
+	@ColRole(role = ColRole.Role.ROW_ID)
+	private long member;
+	
+	@ColRole(role = ColRole.Role.ROW_ID)
+	private String service_superclass_name;
+
+	@ColRole(role = ColRole.Role.ROW_ID)
+	private String service_subclass_name;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long total_cpu_time;
+	
+	@ColRole(role = ColRole.Role.POST_DELTA)
+	private long total_cpu_usec;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long act_completed_total;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long rows_read;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long rows_modified;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long rows_returned;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_data_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_index_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_xda_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_col_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_temp_data_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_temp_index_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_temp_xda_l_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long pool_temp_col_l_reads;
+
+	@ColRole(role = ColRole.Role.POST_DELTA)
+	private long logical_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long direct_reads;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long direct_writes;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long total_sorts;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long total_app_commits;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long total_commit_time;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long total_app_rollbacks;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long ext_table_send_volume;
+	
+	@ColRole(role = ColRole.Role.POST_DELTA)
+	private long ext_table_send_volume_kb_per_min;
+
+	@ColRole(role = ColRole.Role.DELTA)
+	private long ext_table_recv_volume;
+	
+	@ColRole(role = ColRole.Role.POST_DELTA)
+	private long ext_table_recv_volume_kb_per_min;
+	
+	public long getMember() {
+		return member;
+	}
+
+	public void setMember(long member) {
+		this.member = member;
+	}
+	
+	public String getService_superclass_name() {
+		return service_superclass_name;
+	}
+
+	public void setService_superclass_name(String service_superclass_name) {
+		this.service_superclass_name = service_superclass_name;
+	}
+
+	public String getService_subclass_name() {
+		return service_subclass_name;
+	}
+
+	public void setService_subclass_name(String service_subclass_name) {
+		this.service_subclass_name = service_subclass_name;
+	}
+
+	public long getTotal_cpu_time() {
+		return total_cpu_time;
+	}
+
+	public void setTotal_cpu_time(long total_cpu_time) {
+		this.total_cpu_time = total_cpu_time;
+	}
+
+	public long getTotal_cpu_usec() {
+		return total_cpu_usec;
+	}
+
+	public void setTotal_cpu_usec(long total_cpu_usec) {
+		this.total_cpu_usec = total_cpu_usec;
+	}
+
+	public long getAct_completed_total() {
+		return act_completed_total;
+	}
+
+	public void setAct_completed_total(long act_completed_total) {
+		this.act_completed_total = act_completed_total;
+	}
+
+	public long getRows_read() {
+		return rows_read;
+	}
+
+	public void setRows_read(long rows_read) {
+		this.rows_read = rows_read;
+	}
+
+	public long getRows_modified() {
+		return rows_modified;
+	}
+
+	public void setRows_modified(long rows_modified) {
+		this.rows_modified = rows_modified;
+	}
+
+	public long getRows_returned() {
+		return rows_returned;
+	}
+
+	public void setRows_returned(long rows_returned) {
+		this.rows_returned = rows_returned;
+	}
+
+	public long getPool_data_l_reads() {
+		return pool_data_l_reads;
+	}
+
+	public void setPool_data_l_reads(long pool_data_l_reads) {
+		this.pool_data_l_reads = pool_data_l_reads;
+	}
+
+	public long getPool_index_l_reads() {
+		return pool_index_l_reads;
+	}
+
+	public void setPool_index_l_reads(long pool_index_l_reads) {
+		this.pool_index_l_reads = pool_index_l_reads;
+	}
+
+	public long getPool_xda_l_reads() {
+		return pool_xda_l_reads;
+	}
+
+	public void setPool_xda_l_reads(long pool_xda_l_reads) {
+		this.pool_xda_l_reads = pool_xda_l_reads;
+	}
+
+	public long getPool_col_l_reads() {
+		return pool_col_l_reads;
+	}
+
+	public void setPool_col_l_reads(long pool_col_l_reads) {
+		this.pool_col_l_reads = pool_col_l_reads;
+	}
+
+	public long getPool_temp_data_l_reads() {
+		return pool_temp_data_l_reads;
+	}
+
+	public void setPool_temp_data_l_reads(long pool_temp_data_l_reads) {
+		this.pool_temp_data_l_reads = pool_temp_data_l_reads;
+	}
+
+	public long getPool_temp_index_l_reads() {
+		return pool_temp_index_l_reads;
+	}
+
+	public void setPool_temp_index_l_reads(long pool_temp_index_l_reads) {
+		this.pool_temp_index_l_reads = pool_temp_index_l_reads;
+	}
+
+	public long getPool_temp_xda_l_reads() {
+		return pool_temp_xda_l_reads;
+	}
+
+	public void setPool_temp_xda_l_reads(long pool_temp_xda_l_reads) {
+		this.pool_temp_xda_l_reads = pool_temp_xda_l_reads;
+	}
+
+	public long getPool_temp_col_l_reads() {
+		return pool_temp_col_l_reads;
+	}
+
+	public void setPool_temp_col_l_reads(long pool_temp_col_l_reads) {
+		this.pool_temp_col_l_reads = pool_temp_col_l_reads;
+	}
+
+	public long getLogical_reads() {
+		return logical_reads;
+	}
+
+	public void setLogical_reads(long logical_reads) {
+		this.logical_reads = logical_reads;
+	}
+
+	public long getDirect_reads() {
+		return direct_reads;
+	}
+
+	public void setDirect_reads(long direct_reads) {
+		this.direct_reads = direct_reads;
+	}
+
+	public long getDirect_writes() {
+		return direct_writes;
+	}
+
+	public void setDirect_writes(long direct_writes) {
+		this.direct_writes = direct_writes;
+	}
+
+	public long getTotal_sorts() {
+		return total_sorts;
+	}
+
+	public void setTotal_sorts(long total_sorts) {
+		this.total_sorts = total_sorts;
+	}
+
+	public long getTotal_app_commits() {
+		return total_app_commits;
+	}
+
+	public void setTotal_app_commits(long total_app_commits) {
+		this.total_app_commits = total_app_commits;
+	}
+
+	public long getTotal_commit_time() {
+		return total_commit_time;
+	}
+
+	public void setTotal_commit_time(long total_commit_time) {
+		this.total_commit_time = total_commit_time;
+	}
+
+	public long getTotal_app_rollbacks() {
+		return total_app_rollbacks;
+	}
+
+	public void setTotal_app_rollbacks(long total_app_rollbacks) {
+		this.total_app_rollbacks = total_app_rollbacks;
+	}
+
+	public long getExt_table_send_volume() {
+		return ext_table_send_volume;
+	}
+
+	public void setExt_table_send_volume(long ext_table_send_volume) {
+		this.ext_table_send_volume = ext_table_send_volume;
+	}
+
+	public long getExt_table_recv_volume() {
+		return ext_table_recv_volume;
+	}
+
+	public void setExt_table_recv_volume(long ext_table_recv_volume) {
+		this.ext_table_recv_volume = ext_table_recv_volume;
+	}
+
+	public long getExt_table_send_volume_kb_per_min() {
+		return ext_table_send_volume_kb_per_min;
+	}
+
+	public void setExt_table_send_volume_kb_per_min(long ext_table_send_volume_kb_per_min) {
+		this.ext_table_send_volume_kb_per_min = ext_table_send_volume_kb_per_min;
+	}
+
+	public long getExt_table_recv_volume_kb_per_min() {
+		return ext_table_recv_volume_kb_per_min;
+	}
+
+	public void setExt_table_recv_volume_kb_per_min(long ext_table_recv_volume_kb_per_min) {
+		this.ext_table_recv_volume_kb_per_min = ext_table_recv_volume_kb_per_min;
+	}
+
+	public void calcPostDelta(){
+		total_cpu_usec=	total_cpu_time/1000;
+		
+		ext_table_recv_volume_kb_per_min=ext_table_recv_volume/1024;
+		
+		ext_table_recv_volume_kb_per_min=ext_table_recv_volume/1024;
+		
+		logical_reads = pool_data_l_reads + pool_index_l_reads + pool_xda_l_reads + pool_col_l_reads + 
+				pool_temp_data_l_reads + pool_temp_index_l_reads + pool_temp_xda_l_reads + pool_temp_col_l_reads;
+			
+		}
+	
+}

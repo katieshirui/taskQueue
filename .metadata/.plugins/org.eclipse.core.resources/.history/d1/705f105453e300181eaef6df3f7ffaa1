@@ -1,0 +1,14 @@
+package shirui.taskqueue.base;
+
+import java.util.Map;
+
+public interface TaskQueue<E> {
+	boolean add(E e);
+	int len();
+	E get();
+	Map<Object,Boolean> remove();
+	boolean done(E e);
+	boolean shutdown();
+	boolean is_closed();
+
+}

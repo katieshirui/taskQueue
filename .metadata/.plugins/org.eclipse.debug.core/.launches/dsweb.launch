@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.m2e.Maven2LaunchConfigurationType">
+<stringAttribute key="M2_GOALS" value="package liberty:install-apps -DskipTests=true -DskipLibertyPackage=true"/>
+<stringAttribute key="M2_PROFILES" value="console,nexus"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/Users/shirui0825/eclipse-workspace/uc-tribe/uc-api/dsm.web/dsweb"/>
+</launchConfiguration>

@@ -1,0 +1,5 @@
+INDEX VERSION 1.130
+/Users/shirui0825/eclipse-workspace/uc-shirui/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3621605002.index
+/dsweb/.apt_generated
+/Users/shirui0825/eclipse-workspace/uc-shirui/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/908379157.index
+/com.ibm.aps.tools.mymon/src/main/java

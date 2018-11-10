@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="Uow_log_space_used_kb" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="uow_log_space_used_kb"/>
+			<item value="total_cpu_time_ms"/>
+			<item value="ext_table_send_volume_kb_per_min"/>
+			<item value="REALTIME_TIMEOUT"/>
+			<item value="collect"/>
+			<item value="ROW_ID"/>
+			<item value="ext_table_send_volume"/>
+			<item value="startTimeMap"/>
+			<item value="init"/>
+			<item value="getInstance"/>
+			<item value="MonitorSchedulerThread"/>
+			<item value="EventMonitorStatsTop"/>
+			<item value="boundary_errortest8starttime"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="290" key="DIALOG_WIDTH"/>
+		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+		<item value="409" key="DIALOG_HEIGHT"/>
+		<item value="819" key="DIALOG_X_ORIGIN"/>
+		<item value="170" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

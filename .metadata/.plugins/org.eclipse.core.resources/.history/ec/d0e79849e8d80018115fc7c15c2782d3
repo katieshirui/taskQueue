@@ -1,0 +1,20 @@
+host=localhost
+port=9080
+ssl=false
+#auth=token
+auth=base
+baseurl=/dbapi/v3/
+#baseurl=/dashdb-api/v2
+context=
+#nonAdminID=blutestuser
+#nonAdminPwd=Password!234
+#adminID=blutestadmin
+#adminPwd=Password!234
+nonAdminID=bigsql
+nonAdminPwd=bigsql
+adminID=bigsql
+adminPwd=bigsql
+db=bigsql
+version=v2
+#For raw api test
+dbURL=jdbc:db2://9.30.122.160:32051/BIGSQL

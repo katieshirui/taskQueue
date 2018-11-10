@@ -1,0 +1,14 @@
+package shirui.taskqueue.impl;
+
+import shirui.taskqueue.base.TaskQueue;
+
+public class LinkedTaskQueue implements TaskQueue<E>{
+	static class Node<E> {
+        E item;
+
+        Node<E> next; //指向下个节点
+
+        Node(E x) { item = x; }
+    }
+
+}

@@ -1,0 +1,58 @@
+package shirui.taskqueue.impl;
+
+import java.util.Map;
+
+import shirui.taskqueue.base.TaskQueue;
+
+public class LinkedTaskQueue<E> implements TaskQueue<E>{
+	static class Node<E> {
+        E item;
+
+        Node<E> next; //指向下个节点
+
+        Node(E x) { item = x; }
+    }
+
+	@Override
+	public boolean add(E e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int len() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public E get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Object, Boolean> remove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean done(E e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean shutdown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean is_closed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

@@ -1,0 +1,5 @@
+package shirui.taskqueue.base;
+
+public interface TaskQueue {
+
+}

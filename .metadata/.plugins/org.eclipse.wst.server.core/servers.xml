@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server auto-publish-setting="2" auto-publish-time="1" hostname="localhost" id="dsweb" looseConfig="true" name="dsweb" runtime-id="_Users_shirui0825_eclipse-workspace_uc-tribe_uc-api_dsm.web_dsweb_target_liberty_wlp" server-type="com.ibm.ws.st.server.wlp" server-type-id="com.ibm.ws.st.server.wlp" serverName="dsweb" serverType="LibertyMaven" start-timeout="60" stop-timeout="15" timestamp="1" userDirId="dsweb Runtime">
+    <list key="modules" value0="dsweb::org.eclipse.jst.jee.server:dsweb::jst.web::3.1"/>
+  </server>
+</servers>

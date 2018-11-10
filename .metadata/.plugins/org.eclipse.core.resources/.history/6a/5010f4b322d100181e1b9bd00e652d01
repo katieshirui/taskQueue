@@ -1,0 +1,218 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "iscache",
+    "count",
+    "resources",
+    "collected"
+  ],
+  "properties": {
+    "iscache": {
+      "$id": "#/properties/iscache",
+      "type": "boolean",
+      "title": "The Iscache Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "count": {
+      "$id": "#/properties/count",
+      "type": "integer",
+      "title": "The Count Schema",
+      "default": 0,
+      "examples": [
+        4
+      ]
+    },
+    "resources": {
+      "$id": "#/properties/resources",
+      "type": "array",
+      "title": "The Resources Schema",
+      "items": {
+        "$id": "#/properties/resources/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "service_subclass_name",
+          "total_commit_time_ms_per_min",
+          "total_cpu_usec_ms_per_min",
+          "total_app_rollbacks_per_min",
+          "rows_returned_per_min",
+          "ext_table_recv_volume_kb_per_min",
+          "direct_reads_per_min",
+          "total_sorts_per_min",
+          "act_completed_total_per_min",
+          "rows_modified_per_min",
+          "total_app_commits_per_min",
+          "ext_table_send_volume_kb_per_min",
+          "service_superclass_name",
+          "rows_read_per_min",
+          "direct_writes_per_min",
+          "logical_reads_per_min"
+        ],
+        "properties": {
+          "service_subclass_name": {
+            "$id": "#/properties/resources/items/properties/service_subclass_name",
+            "type": "string",
+            "title": "The Service_subclass_name Schema",
+            "default": "",
+            "examples": [
+              "SYSDEFAULTSUBCLASS"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "total_commit_time_ms_per_min": {
+            "$id": "#/properties/resources/items/properties/total_commit_time_ms_per_min",
+            "type": "integer",
+            "title": "The Total_commit_time_ms_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "total_cpu_usec_ms_per_min": {
+            "$id": "#/properties/resources/items/properties/total_cpu_usec_ms_per_min",
+            "type": "integer",
+            "title": "The Total_cpu_usec_ms_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "total_app_rollbacks_per_min": {
+            "$id": "#/properties/resources/items/properties/total_app_rollbacks_per_min",
+            "type": "integer",
+            "title": "The Total_app_rollbacks_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "rows_returned_per_min": {
+            "$id": "#/properties/resources/items/properties/rows_returned_per_min",
+            "type": "integer",
+            "title": "The Rows_returned_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "ext_table_recv_volume_kb_per_min": {
+            "$id": "#/properties/resources/items/properties/ext_table_recv_volume_kb_per_min",
+            "type": "integer",
+            "title": "The Ext_table_recv_volume_kb_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "direct_reads_per_min": {
+            "$id": "#/properties/resources/items/properties/direct_reads_per_min",
+            "type": "integer",
+            "title": "The Direct_reads_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "total_sorts_per_min": {
+            "$id": "#/properties/resources/items/properties/total_sorts_per_min",
+            "type": "integer",
+            "title": "The Total_sorts_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "act_completed_total_per_min": {
+            "$id": "#/properties/resources/items/properties/act_completed_total_per_min",
+            "type": "integer",
+            "title": "The Act_completed_total_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "rows_modified_per_min": {
+            "$id": "#/properties/resources/items/properties/rows_modified_per_min",
+            "type": "integer",
+            "title": "The Rows_modified_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "total_app_commits_per_min": {
+            "$id": "#/properties/resources/items/properties/total_app_commits_per_min",
+            "type": "integer",
+            "title": "The Total_app_commits_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "ext_table_send_volume_kb_per_min": {
+            "$id": "#/properties/resources/items/properties/ext_table_send_volume_kb_per_min",
+            "type": "integer",
+            "title": "The Ext_table_send_volume_kb_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "service_superclass_name": {
+            "$id": "#/properties/resources/items/properties/service_superclass_name",
+            "type": "string",
+            "title": "The Service_superclass_name Schema",
+            "default": "",
+            "examples": [
+              "SYSDEFAULTSYSTEMCLASS"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "rows_read_per_min": {
+            "$id": "#/properties/resources/items/properties/rows_read_per_min",
+            "type": "integer",
+            "title": "The Rows_read_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "direct_writes_per_min": {
+            "$id": "#/properties/resources/items/properties/direct_writes_per_min",
+            "type": "integer",
+            "title": "The Direct_writes_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "logical_reads_per_min": {
+            "$id": "#/properties/resources/items/properties/logical_reads_per_min",
+            "type": "integer",
+            "title": "The Logical_reads_per_min Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          }
+        }
+      }
+    },
+    "collected": {
+      "$id": "#/properties/collected",
+      "type": "integer",
+      "title": "The Collected Schema",
+      "default": 0,
+      "examples": [
+        1539592786750
+      ]
+    }
+  }
+}

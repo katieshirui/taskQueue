@@ -1,0 +1,20 @@
+host=localhost
+port=9080
+ssl=false
+#auth=token
+auth=base
+baseurl=/dbapi/v3/
+#baseurl=/dashdb-api/v2
+context=
+#nonAdminID=blutestuser
+#nonAdminPwd=Password!234
+#adminID=blutestadmin
+#adminPwd=Password!234
+nonAdminID=db2user
+nonAdminPwd=N1cetest
+adminID=db2inst1
+adminPwd=N1cetest
+db=BLUDB
+version=v2
+#For raw api test
+dbURL=jdbc:db2://9.30.101.83:50000/BLUDB

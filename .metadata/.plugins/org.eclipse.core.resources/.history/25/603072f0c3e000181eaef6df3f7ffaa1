@@ -1,0 +1,39 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+public List permute(int[] nums) {
+	List list=new ArrayList<int []>();
+        helper(nums,0,nums.length,list);
+        return list;
+    }
+public void helper(int[] nums,int pos,int n,List list) {
+	if(pos<=n) {
+		if(list.size()==n)
+		for(int j=0;j<=list.size();j++) {
+			System.out.println(nums[j]);
+		}
+		System.out.println("   ");
+		return;
+	}else {
+		list.add(nums[pos]);
+		helper(nums,pos+1,n,list);
+		list.remove(list.size()-1);
+		helper(nums,pos,n,list);
+	}
+}
+public void swap(int[] nums,int i,int j) {
+	int tmp=nums[i];
+	nums[i]=nums[j];
+	nums[j]=tmp;
+}
+	public static void main(String[] arg) {
+		int[] nums= {1,2,3};
+		Solution s = new Solution();
+		List res=s.permute(nums);
+		System.out.println(res);
+	}
+}
+

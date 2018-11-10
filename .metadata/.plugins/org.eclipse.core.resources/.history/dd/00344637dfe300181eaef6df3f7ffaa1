@@ -1,0 +1,102 @@
+package shirui.taskqueue.test;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import shirui.taskqueue.impl.LinkedTaskQueue;
+
+public class TaskQueueTest {
+
+	public class Queue {
+
+		LinkedTaskQueue<String> queue = new LinkedTaskQueue<String>(5);
+		
+		
+        // 生产苹果，放入篮子
+        public void put(String s) throws InterruptedException {
+        	if(s=="4") queue.shutdown();
+        	queue.add(s);
+        }
+
+        // 消费苹果，从篮子中取走
+        public void take() throws InterruptedException {
+            // take方法取出一个苹果，若basket为空，等到basket有苹果为止(获取并移除此队列的头部)
+            String task = queue.get();
+            System.out.println("processing:"+task);
+            queue.done(task);
+            if(task=="2") queue.shutdown();
+    }
+	}
+	
+	class Taker implements Runnable {
+        private String instance;
+        private Queue queue;
+
+        public Taker(String instance, Queue queue) {
+            this.instance = instance;
+            this.queue = queue;
+        }
+
+        public void run() {
+            try {
+                while (true) {
+                    // 生产苹果
+                    System.out.println("生产者准备生产苹果：" + instance);
+                    queue.take();
+                    queue.take();
+                    System.out.println("!生产者生产苹果完毕：" + instance);
+                    // 休眠300ms
+                    Thread.sleep(300);
+                }
+            } catch (InterruptedException ex) {
+                System.out.println("Producer Interrupted");
+            }
+        }
+    }
+
+    // 定义苹果消费者
+    class Adder implements Runnable {
+        private String instance;
+        private Queue queue;
+
+        public Adder(String instance,Queue queue) {
+            this.instance = instance;
+            this.queue = queue;
+        }
+
+        public void run() {
+            try {
+                while (true) {
+                    // 消费苹果
+                    System.out.println("消费者准备消费苹果：" + instance);
+                    queue.put("1");
+                    queue.put("2");
+                    queue.put("3");
+                    queue.put("4");
+                    System.out.println("!消费者消费苹果完毕：" + instance);
+                    // 休眠1000ms
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                System.out.println("Consumer Interrupted");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+    	TaskQueueTest test = new TaskQueueTest();
+
+    	Queue queue = test.new Queue();
+
+        ExecutorService service = Executors.newCachedThreadPool();
+        Adder adder1 = test.new Adder("adder1", queue);
+        Taker taker1 = test.new Taker("taker1", queue);
+        Taker taker2 = test.new Taker("taker2", queue);
+        service.submit(taker1);
+        service.submit(taker2);
+        service.submit(adder1);
+       
+    }
+
+}

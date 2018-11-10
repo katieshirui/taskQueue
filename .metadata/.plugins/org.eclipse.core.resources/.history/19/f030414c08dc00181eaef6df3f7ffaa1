@@ -1,0 +1,37 @@
+package test;
+
+public class Solution {
+	public int entrance(int[][] island) {
+		int rows=island.length;
+		int cols=island[0].length;
+		int[][] tmp=new int[rows][cols];
+		int res=0;
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<cols;j++){
+				if(island[i][j]==1) {
+					islandsNum(island,i,j);
+					res++;
+				}
+			}
+		}
+		return res;
+	}
+	public void islandsNum(int[][] island,int row,int col) {
+		if(row<0 || row>=island.length || col<0 || col>=island[0].length)return;
+		if(island[row][col]==1) {
+			island[row][col]=0;
+			islandsNum(island,row+1,col);
+			islandsNum(island,row-1,col);
+			islandsNum(island,row,col+1);
+			islandsNum(island,row,col-1);
+		}
+		return;
+	}
+	public static void main(String[] arg) {
+		int[][] nums= {{1,1,1,1,0},{1,1,0,1,0},{1,1,0,0,0},{0,0,0,0,0}};
+		Solution s = new Solution();
+		int res=s.entrance(nums);
+		System.out.println(res);
+	}
+}
+

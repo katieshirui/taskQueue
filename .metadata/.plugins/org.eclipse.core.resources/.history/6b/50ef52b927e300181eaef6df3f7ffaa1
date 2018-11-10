@@ -1,0 +1,5 @@
+package shirui.taskqueue.impl;
+
+public class LinkedTaskQueue {
+
+}

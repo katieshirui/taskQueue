@@ -1,0 +1,40 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+public List permute(int[] nums) {
+	List list=new ArrayList<int []>();
+        helper(nums,0,nums.length-1,list);
+        return list;
+    }
+public void helper(int[] nums,int pos,int end,List list) {
+	if(pos==end) {
+		list.add(nums);
+		for(int j=0;j<=end;j++) {
+			System.out.println(nums[j]);
+		}
+		System.out.println('   ');
+		nums=new int[end+1];
+		return;
+	}
+	for(int i=pos;i<=end;i++) {
+		swap(nums,i,pos);
+		helper(nums,pos+1,end,list);
+		swap(nums,i,pos);
+	}
+}
+public void swap(int[] nums,int i,int j) {
+	int tmp=nums[i];
+	nums[i]=nums[j];
+	nums[j]=tmp;
+}
+	public static void main(String[] arg) {
+		int[] nums= {1,2,3,4};
+		Solution s = new Solution();
+		List res=s.permute(nums);
+		System.out.println(res);
+	}
+}
+
