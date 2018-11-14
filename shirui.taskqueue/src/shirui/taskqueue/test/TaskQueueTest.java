@@ -9,26 +9,21 @@ public class TaskQueueTest {
 
 	public class Queue {
 
-		LinkedTaskQueue<String> queue = new LinkedTaskQueue<String>(5);
-		
-		
-        // add task to the queue
+		LinkedTaskQueue<String> queue = new LinkedTaskQueue<String>(5);			// add task to the queue
         public void put(String s) throws InterruptedException {
-        	//if(s=="4") queue.shutdown();
         	System.out.println(Thread.currentThread().getName()+" is trying to add task: "+s);
         	queue.add(s);
         	System.out.println("task "+s+" is added"); 
         }
         
-        // take task from the queue and process the task, delete the task after process; 
+        																		// take task from the queue and process the task, delete the task after process; 
         public void take() throws InterruptedException {
             String task = queue.get();
             System.out.println(Thread.currentThread().getName()+" is processing task: "+task);
             queue.done(task);
             System.out.println(Thread.currentThread().getName()+" finished processing task: "+task);
-            //test the shutdown function
-            if(task=="3") queue.shutdown();
-    }
+            if(task=="3") queue.shutdown(); 				 					//test the shutdown function,after finishing task3,the queue should be shutdown;		
+        }
 	}
 	
 	class Taker implements Runnable {
@@ -86,8 +81,6 @@ public class TaskQueueTest {
         service.submit(taker1);
         service.submit(taker2);
         service.shutdown();
-        
-       
     }
 
 }
