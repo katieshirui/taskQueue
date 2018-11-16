@@ -16,22 +16,23 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 
 	static class Node<E> {
         E item;
-        /** if the task is already taken by another thread */
-        boolean isProcessed=false;
-        
+ 
         Node<E> next; 
 
         Node(E x) { item = x; }
     }
 	/** the capacity of the queue */
 	private final int capacity;
-
+	
     /** the number of nodes */
 	private final AtomicInteger len = new AtomicInteger(0);
 	
 	/** if the queue is open */
 	private boolean isOpen=true;
-
+	
+	/** if the first task is in processing */
+	boolean isProcessed=false;
+	
     /** the head node of the queue */
     private Node<E> head;
 
@@ -80,7 +81,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         putLock.lockInterruptibly();				// get the lock for adding task
         try {
         	if (is_closed()) {
-    			System.out.println("queue is shutdown");
+    			System.out.println("when "+Thread.currentThread().getName()+" adding task,queue is shutdown");
     			return false;
     		}
         	while (len.get() == capacity) {			//when the queue is full block adding thread
@@ -88,7 +89,8 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
             }
             if (len.get() < capacity) {				// when the queue is not full
             	last = last.next = new Node<E>(e);	//add a node to the end of the queue
-                c = len.getAndIncrement();			// the size goes up by one
+            	System.out.println(Thread.currentThread().getName()+" has added task "+ e); 
+            	c = len.getAndIncrement();			// the size goes up by one
                 if (c + 1 < capacity)				// if the size of the queue after adding a task is still smaller than the capacity
                     notFull.signal();				//wake up one thread in adding thread
             }
@@ -124,24 +126,27 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         takeLock.lockInterruptibly();							// get the lock for taking task
         try {
         	if (is_closed()) {
-            	System.out.println("queue is shutdown");
-    			return null;
+            	System.out.println("when "+Thread.currentThread().getName()+"  getting task,queue is shutdown");
+    			
+            	return null;
             }
-        	while (len.get() == 0) {							//when the queue is empty block taking thread
-        		System.out.println("queue is empty");
+        	while (len.get() == 0 || isProcessed==true) {							//when the queue is empty block taking thread
+        		System.out.println("when  "+Thread.currentThread().getName()+" getting task,queue is empty or the task is being processed :"+isProcessed);
                 notEmpty.await();
+                if (is_closed()) {
+                	notEmpty.signal();
+                	return null;
+                }
             }
         	Node<E> x = head.next;								//get the fist task without deleting it
             if (x == null) {									//if the first task got is null
-            	System.out.println("the task taken from queue is null");
+            	System.out.println("when "+Thread.currentThread().getName()+" getting task,the task taken from queue is null");
             	return null;
             }else { 											//the first task is not null
-            	if(x.isProcessed) {             				//if it's get by another thread already,then get the null node
-            		System.out.println("the task taken from queue is in processing");
-            		return null;
-            	}
-            	x.isProcessed=true;
+            	isProcessed=true;
+            	System.out.println(Thread.currentThread().getName()+" got task "+ x.item); 
                 return x.item;
+                      	
             }
         }finally {
             takeLock.unlock();
@@ -154,25 +159,31 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
      * else if the first object in the queue is processed, then delete it;
      * if the queue is not empty, wake up the consumer thread;
      * @return boolean;
+	 * @throws InterruptedException 
      */
 	@Override
-	public boolean done(E e) {
-		if (len.get() == 0) {
-			System.out.println("queue is empty");
-            return false;
-		}
+	public boolean done(E e) throws InterruptedException {
 		if (is_closed()) {
-			System.out.println("queue is shutdown");
+			System.out.println("when "+Thread.currentThread().getName()+" deleting task,queue is shutdown");
+			notEmpty.signal();
 			return false;
+		}
+		if (e==null || len.get() == 0) {
+			System.out.println("when "+Thread.currentThread().getName()+" deleting task,task is null or queue is empty");
+            return false;
 		}
 		if(e.equals(head.next.item)) {				//if the task that just got processed is the same as the first task in the queue 
 			takeLock.lock();							//get taking lock		
 			int c = -1;
 			try {
-				Node<E> h = head.next.next;	
-				head.next.item=null;
-				head.next = h; 						
-				c = len.get();
+				Node<E> h = head;
+		        Node<E> first = h.next;
+		        h.next = h; // help GC
+		        head = first;
+		        first.item = null;
+				isProcessed = false;
+				c = len.getAndDecrement();
+				System.out.println(Thread.currentThread().getName()+" deleted task : "+ e);         
 				if (c > 1) notEmpty.signal();					// wake taking thread
 			} finally {
 				takeLock.unlock();					//release taking lock
@@ -192,10 +203,11 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
         shutdownLock.lock();
         try {
 	        if(isOpen != false) {
-	        	System.out.println("queue shutdown");
 	        	isOpen=false;
 	        }
-	        System.out.println("queue shutdown");
+	        System.out.println("queue is tring to shutdown");
+	        notEmpty.signalAll();
+	        notFull.signalAll();
 	        return isOpen;
         }finally {
         	putLock.unlock();
@@ -209,11 +221,14 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
      */
 	@Override
 	public boolean is_closed() {
+		System.out.println(Thread.currentThread().getName()+" getting queue status");
 		final ReentrantLock shutdownLock = this.shutdownLock;
 		shutdownLock.lock();
 		try {
 			return !isOpen;
 		}finally {
+			System.out.println(Thread.currentThread().getName()+" got queue status: "+ isOpen);
+			
 			shutdownLock.unlock();
 		}
 	}

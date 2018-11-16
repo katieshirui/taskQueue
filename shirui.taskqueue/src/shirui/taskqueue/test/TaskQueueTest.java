@@ -13,16 +13,16 @@ public class TaskQueueTest {
         public void put(String s) throws InterruptedException {
         	System.out.println(Thread.currentThread().getName()+" is trying to add task: "+s);
         	queue.add(s);
-        	System.out.println("task "+s+" is added"); 
+        	//System.out.println("task "+s+" is added"); 
         }
         
         																		// take task from the queue and process the task, delete the task after process; 
         public void take() throws InterruptedException {
             String task = queue.get();
-            System.out.println(Thread.currentThread().getName()+" is processing task: "+task);
-            queue.done(task);
             System.out.println(Thread.currentThread().getName()+" finished processing task: "+task);
-            if(task=="3") queue.shutdown(); 				 					//test the shutdown function,after finishing task3,the queue should be shutdown;		
+            queue.done(task);
+            //System.out.println(Thread.currentThread().getName()+" finished processing task: "+task);
+            if(task.equals("3")) queue.shutdown(); 				 					//test the shutdown function,after finishing task3,the queue should be shutdown;		
         }
 	}
 	
@@ -36,9 +36,11 @@ public class TaskQueueTest {
         public void run() {
             try {
                 while (!queue.queue.is_closed()) {
+                	System.out.println("consumer: "+Thread.currentThread().getName()+ " thread run");
                     queue.take();
-                    Thread.sleep(300);
+                    Thread.sleep(1000);
                 }
+                System.out.println("consumer: "+Thread.currentThread().getName()+ " thread run finished");
             } catch (InterruptedException ex) {
                 System.out.println("Producer Interrupted");
             }
@@ -57,11 +59,15 @@ public class TaskQueueTest {
             try {
                 while (!queue.queue.is_closed()) {
                     queue.put("1");
+                    Thread.sleep(1000);
                     queue.put("2");
+                    Thread.sleep(1000);
                     queue.put("3");
+                    Thread.sleep(1000);
                     queue.put("4");
                     Thread.sleep(5000);
                 }
+                System.out.println("producer thread run finished");
             } catch (InterruptedException ex) {
                 System.out.println("Consumer Interrupted");
             }
