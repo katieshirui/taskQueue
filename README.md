@@ -16,17 +16,17 @@ result of one test is as follows:</br>
 ```
 queue is empty
 pool-1-thread-1 is trying to add task: 1
-pool-1-thread-3 is processing task: 1
-pool-1-thread-3 finished processing task: 1
 task 1 is added
-the task taken from queue is null
 pool-1-thread-1 is trying to add task: 2
-pool-1-thread-2 is processing task: null
 task 2 is added
 pool-1-thread-1 is trying to add task: 3
 task 3 is added
 pool-1-thread-1 is trying to add task: 4
 task 4 is added
+the task taken from queue is in processing
+pool-1-thread-2 is processing task: null
+pool-1-thread-3 is processing task: 1
+pool-1-thread-3 finished processing task: 1
 pool-1-thread-3 is processing task: 2
 pool-1-thread-3 finished processing task: 2
 pool-1-thread-3 is processing task: 3
