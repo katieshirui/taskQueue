@@ -86,6 +86,10 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
     		}
         	while (len.get() == capacity) {			//when the queue is full block adding thread
                 notFull.await();
+                if (is_closed()) {
+                	notEmpty.signal();
+                	return false;
+                }
             }
             if (len.get() < capacity) {				// when the queue is not full
             	last = last.next = new Node<E>(e);	//add a node to the end of the queue
@@ -206,7 +210,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
 	        	isOpen=false;
 	        }
 	        System.out.println("queue is tring to shutdown");
-	        notEmpty.signalAll();
+	        notEmpty.signalAll();       //when the queue is shutdown,wake up all the threads that are waiting
 	        notFull.signalAll();
 	        return isOpen;
         }finally {
@@ -221,7 +225,7 @@ public class LinkedTaskQueue<E> implements TaskQueue<E>{
      */
 	@Override
 	public boolean is_closed() {
-		System.out.println(Thread.currentThread().getName()+" getting queue status");
+		//System.out.println(Thread.currentThread().getName()+" getting queue status");
 		final ReentrantLock shutdownLock = this.shutdownLock;
 		shutdownLock.lock();
 		try {
